@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Unsafe book fixture</title>
+    <script>
+      window.__bookExecuted = true;
+      parent.__bookExecuted = true;
+    </script>
+  </head>
+  <body>
+    <h1>Safe reading</h1>
+    <p onclick="parent.__bookExecuted=true">
+      This book contains a script that must never run.
+    </p>
+    <script src="/dangerous.js"></script>
+    <iframe srcdoc="<script>parent.__bookExecuted=true</script>"></iframe>
+  </body>
+</html>

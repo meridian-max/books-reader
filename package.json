@@ -1,0 +1,32 @@
+{
+  "name": "books-reader",
+  "version": "1.9.1",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && node scripts/prepare.mjs && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "playwright test",
+    "android": "bash scripts/build-android.sh"
+  },
+  "dependencies": {
+    "djvu-rs": "0.45.0",
+    "docx-preview": "0.4.1",
+    "dompurify": "3.4.17",
+    "fflate": "0.8.3",
+    "idb": "8.0.3",
+    "libarchive.js": "2.0.2",
+    "lucide": "0.468.0",
+    "marked": "15.0.12",
+    "mupdf": "1.28.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@types/node": "22.15.30",
+    "prettier": "3.5.3",
+    "typescript": "5.8.3",
+    "vite": "6.4.6"
+  }
+}

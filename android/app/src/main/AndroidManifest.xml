@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ <uses-permission android:name="android.permission.INTERNET"/>
+ <uses-permission android:name="android.permission.WAKE_LOCK"/>
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+ <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+ <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+ <queries><intent><action android:name="android.intent.action.TTS_SERVICE"/></intent><intent><action android:name="colordict.intent.action.SEARCH"/></intent></queries>
+ <application android:label="Books" android:icon="@drawable/ic_books" android:theme="@style/BooksTheme" android:allowBackup="false" android:supportsRtl="true" android:usesCleartextTraffic="true">
+  <activity android:name=".MainActivity" android:enableOnBackInvokedCallback="true" android:exported="true" android:launchMode="singleTask" android:configChanges="orientation|screenSize|keyboardHidden" android:windowSoftInputMode="adjustResize">
+   <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+   <intent-filter><action android:name="android.intent.action.VIEW"/><category android:name="android.intent.category.DEFAULT"/><category android:name="android.intent.category.BROWSABLE"/><data android:scheme="content"/><data android:mimeType="application/epub+zip"/><data android:mimeType="application/pdf"/><data android:mimeType="text/plain"/><data android:mimeType="application/x-mobipocket-ebook"/><data android:mimeType="application/vnd.comicbook+zip"/></intent-filter>
+   <intent-filter><action android:name="android.intent.action.SEND"/><category android:name="android.intent.category.DEFAULT"/><data android:mimeType="*/*"/></intent-filter>
+  </activity>
+  <activity android:name=".WidgetConfigureActivity" android:exported="true"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/></intent-filter></activity>
+  <service android:name=".BooksVoiceEngine" android:label="Books offline voices" android:exported="false" android:process=":voices"><intent-filter><action android:name="android.intent.action.TTS_SERVICE"/><category android:name="android.intent.category.DEFAULT"/></intent-filter><meta-data android:name="android.speech.tts" android:resource="@xml/books_tts"/></service>
+  <service android:name=".SpeechService" android:foregroundServiceType="mediaPlayback" android:exported="false"/>
+  <receiver android:name=".BooksWidget" android:exported="false"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/books_widget"/></receiver>
+ </application>
+</manifest>

@@ -1,0 +1,105 @@
+/* Books 1.8: quiet typography, deliberate depth, immediate contact feedback. */
+:root { --motion-ease: cubic-bezier(.16,1,.3,1); }
+::selection { background: var(--app-accent); color: var(--app-background); }
+input, textarea { caret-color: var(--app-accent); }
+.page, .modal-body { scrollbar-color: var(--app-line) transparent; scrollbar-width: thin; }
+.main-appbar .books-wordmark { letter-spacing: -.035em; }
+.main-appbar .appbar-title { letter-spacing: -.025em; }
+.main-appbar .appbar-button { width: 48px; min-width: 48px; height: 48px; min-height: 48px; }
+.main-appbar { border-bottom: 0; }
+.bottom-nav button small { font-size: 12px; letter-spacing: 0; }
+.bottom-nav button > span { width: 52px; height: 34px; }
+.bottom-nav button.active > span { background: var(--app-tint); box-shadow: none; }
+.continue-card { border: 0; border-radius: 16px; box-shadow: inset 0 1px #ffffff09, 0 12px 26px #0002; }
+.cover-stage { height: 222px; padding-top: 12px; }
+.continue-cover { transform: rotateY(-14deg) rotateZ(-5deg); }
+.continue-cover, .continue-cover img { width: 122px; }
+.continue-cover img { height: 180px; }
+.continue-copy { padding: 4px 22px 22px; }
+.continue-copy h1 { font-family: BooksLiterata, Georgia, serif; font-size: 27px; font-weight: 500; line-height: 1.25; letter-spacing: -.025em; text-wrap: balance; }
+.continue-meta { flex-wrap: wrap; gap: 4px 12px; }
+.continue-meta p { font-size: 14px; }
+.continue-meta > span { font-size: 12px; font-variant-numeric: tabular-nums; }
+.continue-progress { height: 3px; border-radius: 2px; margin: 14px 0 18px; }
+.continue-copy .primary { font-size: 14px; min-height: 50px; border-radius: 8px; }
+.home-rhythm { display: block; width: 100%; margin: 0 0 26px; padding: 22px 0; text-align: left; }
+.rhythm-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.home-rhythm .rhythm-heading strong { font-size: 14px; font-weight: 650; letter-spacing: 0; line-height: 1.4; }
+.rhythm-heading > span { display: flex; align-items: center; gap: 6px; color: var(--app-secondary); font-size: 12px; font-variant-numeric: tabular-nums; }
+.reading-week { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 8px; margin-top: 16px; }
+.week-day { display: flex; align-items: center; flex-direction: column; gap: 7px; }
+.home-rhythm .week-day small { font-size: 12px; margin: 0; color: var(--app-secondary); }
+.week-day i { width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid var(--app-line); border-radius: 50%; }
+.week-day i > span { width: 3px; height: 3px; border-radius: 50%; background: var(--app-secondary); }
+.week-day.has-reading i { background: var(--app-accent); border-color: transparent; color: var(--app-background); }
+.week-day.is-today small { color: var(--app-text); font-weight: 750; }
+.week-day.is-today i { outline: 1px solid var(--app-accent); outline-offset: 3px; }
+.home-section-heading h2 { font-size: 22px; letter-spacing: -.025em; }
+.home-section-heading .subtle { font-size: 13px; min-height: 48px; }
+.home-book-rail { gap: 20px; scroll-snap-type: x proximity; overscroll-behavior-x: contain; }
+.home-book { flex-basis: 116px; scroll-snap-align: start; }
+.home-book strong { font-size: 14px; line-height: 1.4; }
+.home-book small { font-size: 12px; line-height: 1.5; }
+.home-book img { height: 174px; box-shadow: 4px 7px 12px #0004; }
+.home-quick-actions strong { font-size: 15px; }
+.home-quick-actions small { font-size: 13px; }
+.welcome-card h1 { letter-spacing: -.035em; }
+.welcome-card p { font-size: 15px; }
+.welcome-card .subtle { font-size: 13px; }
+.library-heading .primary { font-size: 13px; }
+.shelf-search input, .settings-search input { font-size: 14px; }
+.shelf-search, .settings-search { border-radius: 12px; }
+.library-filters button { font-size: 13px; min-height: 48px; }
+.library-tools .subtle { font-size: 13px; min-height: 48px; }
+.library-tools .icon-button { min-width: 48px; min-height: 48px; }
+.library-result-count { font-size: 12px; }
+.shelf-page .book-title, .wooden-shelf .book-title { font-size: 14px; line-height: 1.45; max-height: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.shelf-page .book-author { font-size: 12px; line-height: 1.5; }
+.shelf-page .book-reading-status { font-size: 12px; font-variant-numeric: tabular-nums; }
+.shelf-page .book-format { font-size: 10px; letter-spacing: .03em; }
+.shelf-page .book-cover-wrap { box-shadow: 4px 7px 12px #0004; }
+.shelf-page .book-more, .shelf-page .books-list .book-more { width: 48px; height: 48px; min-width: 48px; min-height: 48px; border: 0; }
+.shelf-page .book-more::before { display: none; }
+.shelf-page .cover-progress { background: var(--app-background); color: var(--app-accent); font-size: 12px; border-radius: 6px; padding: 4px 7px; font-variant-numeric: tabular-nums; }
+/* Batches bound initial work. Real heights prevent estimated-height jumps on return. */
+.shelf-page .books-grid .book-card, .wooden-shelf .book-card, .shelf-page .books-list .book-card { content-visibility: visible; contain-intrinsic-size: none; }
+.library-more { display: flex; width: 100%; justify-content: center; margin: 12px 0 24px; }
+#app button, .modal button { transition: scale 120ms var(--motion-ease), background-color 120ms, color 120ms; }
+#app button:active:not(:disabled), .modal button:active:not(:disabled) { scale: .975; }
+.book-title:active, .home-rhythm:active { scale: 1 !important; }
+.page-heading h1, .profile-identity h1 { letter-spacing: -.03em; }
+.profile-links strong { font-size: 15px; }
+.profile-links small, .profile-identity p, .profile-metrics small, .local-backup-actions button { font-size: 12px; }
+.profile-identity .subtle { min-height: 48px; font-size: 13px; }
+.profile-metrics { font-variant-numeric: tabular-nums; }
+.notebook-card { border-top-width: 1px; border-left-width: 1px; }
+@media (min-width: 700px) {
+  .continue-card { padding: 22px; min-height: 280px; }
+  .cover-stage { height: 236px; padding-top: 0; }
+  .continue-cover, .continue-cover img { width: 140px; }
+  .continue-cover img { height: 210px; }
+  .continue-copy { padding: 10px 12px 10px 24px; }
+  .continue-copy h1 { font-size: 32px; }
+  .home-book { flex-basis: 140px; }
+  .home-book img { height: 210px; }
+}
+@media (min-width: 1000px) {
+  .app-shell { display: grid; grid-template-columns: 88px minmax(0,1fr); grid-template-rows: 76px minmax(0,1fr); }
+  .main-appbar { grid-column: 1 / -1; }
+  .app-shell > .page { grid-column: 2; grid-row: 2; min-height: 0; }
+  .bottom-nav { grid-column: 1; grid-row: 2; align-self: stretch; display: flex; flex-direction: column; gap: 16px; padding: 24px 8px; border: 0; border-right: 1px solid var(--app-line); box-shadow: none; width: 88px; }
+  .bottom-nav button { flex: 0 0 64px; justify-content: center; }
+}
+@media (max-width: 380px) {
+  .cover-stage { height: 206px; }
+  .continue-copy { padding: 4px 18px 18px; }
+  .continue-copy h1 { font-size: 25px; }
+  .rhythm-heading > span { font-size: 11px; }
+  .library-filters button { font-size: 12px; }
+  .books-grid, .wooden-shelf .books-grid { gap: 26px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #app button, .modal button { transition: none; }
+  #app button:active, .modal button:active { scale: 1 !important; }
+}
+:root[data-motion="reduced"] #app button:active, :root[data-motion="reduced"] .modal button:active { scale: 1 !important; }

@@ -1,0 +1,28 @@
+import {chromium} from '@playwright/test';
+import {mkdir} from 'node:fs/promises';
+const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||'/home/divyansh/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome'});
+const page=await browser.newPage({viewport:{width:412,height:892},deviceScaleFactor:1});
+await mkdir('docs/screenshots/comfort',{recursive:true});
+const shot=async name=>{
+  await page.waitForTimeout(250);
+  await page.evaluate(async()=>Promise.all([...document.images].filter(img=>{const r=img.getBoundingClientRect();return r.top<innerHeight&&r.bottom>0&&r.width>0}).map(img=>img.decode().catch(()=>{}))));
+  await page.screenshot({path:`docs/screenshots/comfort/${name}.png`,animations:'disabled'});
+};
+await page.goto('http://127.0.0.1:5173');
+await page.locator('.welcome-card').waitFor();await shot('welcome');
+await page.locator('[data-action=sample-books]').click();await page.locator('.book-card').nth(3).waitFor();await page.waitForFunction(()=>!document.querySelector('#toast').classList.contains('visible'));await shot('library');
+await page.locator('.book-cover-button').first().click();await page.waitForFunction(()=>document.querySelector('foliate-view')?.renderer?.getContents().length);await shot('reader');
+await page.locator('[data-action=appearance]').click();await shot('appearance');await page.locator('.close-modal').click();
+await page.locator('.reader-top-actions [data-action=more]').click();await shot('reader-menu');await page.locator('.close-modal').click();
+await page.locator('[data-action=exit]').click();await page.locator('[data-tab=home]').click();await shot('home');
+await page.locator('[data-tab=notebook]').click();await shot('notes');
+await page.locator('[data-tab=settings]').click();await shot('settings');
+await page.locator('.settings-panel summary').first().click();await page.locator('[data-setting=appTheme]').selectOption('dark');await shot('settings-dark');
+await page.locator('[data-tab=home]').click();await shot('home-dark');
+await page.locator('[data-action=mobile-menu]').click();await shot('navigation-dark');await page.locator('.sidebar [data-action=close-drawer]').click();
+await page.locator('[data-tab=settings]').click();await page.locator('.settings-panel summary').first().click();await page.locator('[data-setting=appTheme]').selectOption('classic');await page.locator('[data-tab=home]').click();
+await page.setViewportSize({width:360,height:740});await shot('home-360');
+await page.locator('[data-tab=library]').click();await shot('library-360');
+await page.setViewportSize({width:1280,height:900});await page.locator('[data-tab=home]').click();await shot('home-desktop');
+await browser.close();
+console.log('Captured the complete comfort UI at phone and desktop sizes.');

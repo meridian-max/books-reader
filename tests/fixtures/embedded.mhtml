@@ -1,0 +1,22 @@
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="BOOKS-MIME"
+
+--BOOKS-MIME
+Content-Type: text/html; charset=utf-8
+Content-Location: https://example.invalid/book/index.html
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><title>Archived book</title><link rel=3D"stylesheet" href=3D"assets/style.css"></head><body><h1>Archived page</h1><p class=3D"special">Offline artwork and stylesheet.</p><img src=3D"cid:artwork"></body></html>
+--BOOKS-MIME
+Content-Type: text/css
+Content-Location: https://example.invalid/book/assets/style.css
+
+.special{color:rgb(190,20,30)}
+--BOOKS-MIME
+Content-Type: image/svg+xml
+Content-ID: <artwork>
+Content-Location: https://example.invalid/book/assets/art.svg
+Content-Transfer-Encoding: base64
+
+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI0MCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjQwIiBmaWxsPSIjZDM0MTMyIi8+PC9zdmc+
+--BOOKS-MIME--

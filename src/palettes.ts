@@ -1,0 +1,23 @@
+// Shared app and reading palettes. Ink colors are checked for WCAG text contrast.
+export const extraPalettes = {
+  porcelain:{name:"Porcelain",bg:"#f7f5ef",surface:"#e9e5da",fg:"#38372f",accent:"#6a5637",light:true},
+  oat:{name:"Oat milk",bg:"#f0e9dd",surface:"#e2d7c7",fg:"#44372d",accent:"#735135",light:true},
+  sage:{name:"Sage paper",bg:"#e6ede5",surface:"#d4dfd2",fg:"#2e4132",accent:"#3d6547",light:true},
+  seafoam:{name:"Sea glass",bg:"#e3efeb",surface:"#cfe1da",fg:"#29433e",accent:"#38685e",light:true},
+  glacier:{name:"Glacier",bg:"#e7eff5",surface:"#d2e0eb",fg:"#2e4154",accent:"#3b627f",light:true},
+  lilac:{name:"Lilac paper",bg:"#eee8f4",surface:"#dfd5e8",fg:"#44364f",accent:"#6e5182",light:true},
+  blossom:{name:"Cherry blossom",bg:"#f5e7eb",surface:"#e9d1da",fg:"#513541",accent:"#824a61",light:true},
+  peach:{name:"Peach linen",bg:"#f8eade",surface:"#ebd6c5",fg:"#503c2e",accent:"#835034",light:true},
+  lemon:{name:"Lemon cream",bg:"#f3efdc",surface:"#e4dfbf",fg:"#45422b",accent:"#676028",light:true},
+  clay:{name:"Warm clay",bg:"#ede4de",surface:"#dfcec2",fg:"#493a32",accent:"#734f38",light:true},
+  espresso:{name:"Espresso",bg:"#1e1714",surface:"#2e2420",fg:"#ebdacb",accent:"#d9b38d",light:false},
+  mulberry:{name:"Mulberry",bg:"#21151e",surface:"#332330",fg:"#ead7e3",accent:"#d8a9c9",light:false},
+  aubergine:{name:"Aubergine",bg:"#1b1628",surface:"#2b243a",fg:"#e2dced",accent:"#c4b0e0",light:false},
+  indigo:{name:"Indigo night",bg:"#111b30",surface:"#1c2b43",fg:"#dbe4f3",accent:"#a9bfea",light:false},
+  lagoon:{name:"Deep lagoon",bg:"#102126",surface:"#1b333a",fg:"#d7e9e9",accent:"#9dcdcf",light:false},
+  pine:{name:"Pine shadow",bg:"#14221c",surface:"#22372b",fg:"#dbe9d9",accent:"#b3d0a2",light:false},
+  olive:{name:"Olive dusk",bg:"#202218",surface:"#303426",fg:"#e4e6d5",accent:"#c6cf9d",light:false},
+  copper:{name:"Copper night",bg:"#241a16",surface:"#392b22",fg:"#f0dfce",accent:"#e2b38c",light:false},
+  graphite:{name:"Graphite",bg:"#1a1d20",surface:"#2a2e33",fg:"#e1e4e7",accent:"#bac8d4",light:false},
+  moonstone:{name:"Moonstone",bg:"#202029",surface:"#30303d",fg:"#e4e1ed",accent:"#c6bfdc",light:false},
+};

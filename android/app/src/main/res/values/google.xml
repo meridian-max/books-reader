@@ -1,0 +1,4 @@
+<resources>
+    <!-- Public OAuth web client ID for the Books project; never a client secret. -->
+    <string name="google_web_client_id" translatable="false"></string>
+</resources>

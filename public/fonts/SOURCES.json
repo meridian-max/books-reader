@@ -1,0 +1,80 @@
+[
+  {
+    "family": "literata",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/literata/Literata%5Bopsz%2Cwght%5D.ttf",
+    "revision": "0a81b4984a4a4eb101e0ddc28babc85bb137efef",
+    "bytes": 955132
+  },
+  {
+    "family": "lora",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/lora/Lora%5Bwght%5D.ttf",
+    "revision": "ee1914c3746140523de2940d267ec2215bd85d5b",
+    "bytes": 212196
+  },
+  {
+    "family": "merriweather",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/merriweather/Merriweather%5Bopsz%2Cwdth%2Cwght%5D.ttf",
+    "revision": "cb775b80fa0a6f3b2aea114869a7171695b50a62",
+    "bytes": 4628080
+  },
+  {
+    "family": "crimsonpro",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/crimsonpro/CrimsonPro%5Bwght%5D.ttf",
+    "revision": "b8c1f6da0acbf2cb6d0af49ce89557288c829daa",
+    "bytes": 246324
+  },
+  {
+    "family": "ebgaramond",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ebgaramond/EBGaramond%5Bwght%5D.ttf",
+    "revision": "52d34b86ec20977f222ce37e8158e6b3002c0a31",
+    "bytes": 851176
+  },
+  {
+    "family": "sourceserif4",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/sourceserif4/SourceSerif4%5Bopsz%2Cwght%5D.ttf",
+    "revision": "40bbb58cb58e893ad0470f0bb291e096c73d3554",
+    "bytes": 1209508
+  },
+  {
+    "family": "notoserif",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notoserif/NotoSerif%5Bwdth%2Cwght%5D.ttf",
+    "revision": "7664d59c95d6c589f7b15017a218f7a42b93f86d",
+    "bytes": 1887192
+  },
+  {
+    "family": "atkinsonhyperlegiblenext",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/atkinsonhyperlegiblenext/AtkinsonHyperlegibleNext%5Bwght%5D.ttf",
+    "revision": "92a357554bdcca62a7e80d5e3724bf4eb8932e5e",
+    "bytes": 114552
+  },
+  {
+    "family": "lexend",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/lexend/Lexend%5Bwght%5D.ttf",
+    "revision": "f70999106bfa76d48051b73ad7c888573663879c",
+    "bytes": 175756
+  },
+  {
+    "family": "notosans",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans%5Bwdth%2Cwght%5D.ttf",
+    "revision": "75575046c015ff623a848096a15779867ba71453",
+    "bytes": 2049096
+  },
+  {
+    "family": "opensans",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/opensans/OpenSans%5Bwdth%2Cwght%5D.ttf",
+    "revision": "9db85693b027f3b05f6d77471d215f20707127c1",
+    "bytes": 532636
+  },
+  {
+    "family": "notoserifdevanagari",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notoserifdevanagari/NotoSerifDevanagari%5Bwdth%2Cwght%5D.ttf",
+    "revision": "3d90da279fe70b5017d9b51f58772f0c9ea4146e",
+    "bytes": 757692
+  },
+  {
+    "family": "notosansdevanagari",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansdevanagari/NotoSansDevanagari%5Bwdth%2Cwght%5D.ttf",
+    "revision": "163f04bddc5a96fc523e4080466cac5c588f6594",
+    "bytes": 641944
+  }
+]

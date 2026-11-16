@@ -1,0 +1,289 @@
+/* A paper-aware selection tool. Book geometry stays in highlight-render.ts. */
+#selection-tools {
+  --selection-line: color-mix(in srgb, var(--selection-ink) 12%, transparent);
+  --selection-muted: color-mix(
+    in srgb,
+    var(--selection-ink) 66%,
+    var(--selection-surface)
+  );
+  --selection-tint: color-mix(
+    in srgb,
+    var(--selection-color) 22%,
+    var(--selection-surface)
+  );
+  width: min(360px, calc(100vw - 20px));
+  max-width: calc(100vw - 20px);
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  bottom: auto;
+  padding: 0;
+  border: 1px solid var(--selection-line);
+  border-radius: 18px;
+  background: var(--selection-surface);
+  color: var(--selection-ink);
+  box-shadow:
+    0 12px 36px #0003,
+    0 2px 6px #0001;
+  font-family: var(--ui-font);
+  animation: selection-in 0.16s ease-out;
+}
+.controls-hidden #selection-tools {
+  bottom: auto;
+}
+#selection-tools button {
+  color: var(--selection-ink);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+#selection-tools button:hover,
+#selection-tools button:active {
+  background: var(--selection-tint);
+}
+#selection-tools button:focus-visible,
+#selection-tools .custom-highlight:focus-within {
+  outline: 2px solid var(--selection-ink);
+  outline-offset: -3px;
+}
+#selection-tools button svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+#selection-tools .selection-palette {
+  padding: 4px 12px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--selection-line);
+  background: transparent;
+}
+#selection-tools .selection-heading {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 0;
+}
+#selection-tools .selection-title {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.1px;
+}
+#selection-tools .selection-heading button,
+#selection-tools .custom-highlight {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--selection-muted);
+  background: transparent;
+}
+#selection-tools .custom-highlight {
+  position: relative;
+  cursor: pointer;
+}
+#selection-tools .custom-highlight input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+#selection-tools .selection-preview {
+  margin: 0 0 12px;
+  padding: 4px 2px 0;
+  font:
+    17px/1.55 BooksLiterata,
+    Georgia,
+    serif;
+  color: var(--selection-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 57px;
+  overflow-wrap: anywhere;
+}
+#selection-tools .selection-preview span {
+  background: var(--selection-tint);
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 1px 2px;
+}
+#selection-tools[data-mark-style="Underline"] .selection-preview span,
+#selection-tools[data-mark-style="Squiggly"] .selection-preview span,
+#selection-tools[data-mark-style="StrikeOut"] .selection-preview span {
+  background: none;
+  text-decoration-color: var(--selection-color);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+#selection-tools[data-mark-style="Underline"] .selection-preview span {
+  text-decoration-line: underline;
+}
+#selection-tools[data-mark-style="StrikeOut"] .selection-preview span {
+  text-decoration-line: line-through;
+}
+#selection-tools[data-mark-style="Squiggly"] .selection-preview span {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+}
+#selection-tools .selection-styles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--selection-line);
+  border-radius: 11px;
+  background: transparent;
+}
+#selection-tools .selection-styles button {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 4px 0;
+  font: 600 11px/1.3 var(--ui-font);
+  color: var(--selection-muted);
+  border-radius: 8px;
+  border: 0;
+  background: transparent;
+}
+#selection-tools .selection-styles button[aria-pressed="true"] {
+  color: var(--selection-ink);
+  background: var(--selection-tint);
+}
+#selection-tools [data-selection-style="Underline"] span {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+#selection-tools [data-selection-style="StrikeOut"] span {
+  text-decoration: line-through;
+}
+#selection-tools [data-selection-style="Squiggly"] span {
+  text-decoration: underline wavy;
+  text-underline-offset: 4px;
+}
+#selection-tools .selection-colors {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  padding: 8px 0 0;
+  margin: 0;
+  width: 100%;
+  border: 0;
+  background: transparent;
+}
+#selection-tools .highlight-color {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 60px;
+  height: 60px;
+  gap: 6px;
+  padding: 5px 0;
+  border: 0;
+  border-radius: 9px;
+  box-shadow: none;
+  background: transparent;
+  font: 500 10px/1.2 var(--ui-font);
+  color: var(--selection-muted);
+}
+#selection-tools .highlight-color::before {
+  content: none;
+}
+#selection-tools .highlight-swatch {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--highlight-color);
+  box-shadow: inset 0 0 0 1px #0000000d;
+  transition: outline-offset 0.16s;
+}
+#selection-tools .highlight-swatch svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5;
+  color: #29312c;
+  opacity: 0;
+}
+#selection-tools .highlight-color[aria-pressed="true"] {
+  color: var(--selection-ink);
+  font-weight: 750;
+}
+#selection-tools .highlight-color[aria-pressed="true"] .highlight-swatch {
+  outline: 1.5px solid var(--selection-ink);
+  outline-offset: 3px;
+}
+#selection-tools .highlight-color[aria-pressed="true"] svg {
+  opacity: 1;
+}
+#selection-tools .selection-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 2px;
+  padding: 6px;
+  width: 100%;
+}
+#selection-tools .selection-actions button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 8px;
+  flex: 1 1 auto;
+  font: 600 12px/1.2 var(--ui-font);
+  border-radius: 10px;
+  color: var(--selection-ink);
+}
+#selection-tools .selection-actions [data-selection="highlight"] {
+  background: var(--selection-tint);
+}
+#selection-tools .selection-actions [data-selection="palette"],
+#selection-tools .selection-actions [data-selection="delete"],
+#selection-tools .selection-actions [data-selection="more"] {
+  position: relative;
+  flex: 0 0 44px;
+  min-width: 44px;
+  padding: 0;
+}
+#selection-tools .selection-actions [aria-expanded="true"] {
+  background: var(--selection-tint);
+  color: var(--selection-ink);
+}
+#selection-tools .selection-current-color {
+  position: absolute;
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--selection-color);
+  bottom: 6px;
+}
+#selection-tools .selection-actions [data-selection="delete"] {
+  color: var(--selection-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  #selection-tools,
+  #selection-tools * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+[data-motion="reduced"] #selection-tools,
+[data-motion="reduced"] #selection-tools * {
+  animation: none !important;
+  transition: none !important;
+}

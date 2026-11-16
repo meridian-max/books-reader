@@ -1,0 +1,75 @@
+/* Reader controls recreated from the inspected Android layout dimensions. */
+.reader-top-actions .icon-button[data-action="bookmark"],
+.reader-top-actions .icon-button[data-action="more"] { display: inline-flex; }
+.reader-header .reader-heading h1 { font-size: 17px; font-weight: 400; }
+.reader-footer { padding: 0; background: #cfd8dc; color: #424a4e; }
+.reader-footer .reader-position { padding: 4px 14px 0; height: 20px; font-size: 11px; overflow: hidden; }
+.reader-progress-row { display: flex; align-items: center; gap: 1px; height: 48px; padding: 0 4px; }
+.reader-progress-row .icon-button { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 36px; width: 36px; height: 44px; padding: 8px; color: #52666e; }
+.reader-progress-row .icon-button:disabled { opacity: .3; }
+.reader-progress-row #reading-progress { flex: 1; width: 0; min-width: 30px; margin: 0 7px; height: 4px; accent-color: #29a6c4; }
+.reader-progress-row #reader-percent { min-width: 48px; padding: 10px 3px; font-size: 14px; color: #4d595e; font-variant-numeric: tabular-nums; }
+#reader-pages { font-size: 12px; white-space: nowrap; color: #607078; }
+.reader-footer .reader-toolbar { border-top: 1px solid #9faeb45c; padding: 4px 8px; }
+.reader-footer .reader-toolbar .icon-button { min-height: 44px; height: 44px; color: #758957; }
+.reader-footer .reader-toolbar .icon-button svg { width: 25px; height: 25px; }
+[data-app-theme="dark"] .reader-footer { background: #282f31; color: #c6cdce; }
+[data-app-theme="dark"] .reader-progress-row #reader-percent,
+[data-app-theme="dark"] .reader-progress-row .icon-button,
+[data-app-theme="dark"] #reader-pages { color: #bbc7cb; }
+
+#selection-tools { display: block; width: min(380px, calc(100vw - 16px)); max-width: calc(100vw - 16px); padding: 0; border: 1px solid #d2d2c8; border-radius: 3px; background: #fffef2; color: #303030; box-shadow: 0 2px 6px #0004; overflow: visible; }
+#selection-tools[hidden], #selection-tools [hidden] { display: none !important; }
+#selection-tools .selection-actions { display: flex; width: 100%; min-height: 44px; align-items: stretch; }
+#selection-tools .selection-actions button { display: flex; align-items: center; justify-content: center; flex: 1 1 auto; width: auto; min-width: 0; min-height: 44px; padding: 0 8px; border: 0; border-radius: 0; color: #303030; background: transparent; font: 400 14px Roboto, Arial, sans-serif; white-space: nowrap; }
+#selection-tools .selection-actions [data-selection="palette"],
+#selection-tools .selection-actions [data-selection="delete"] { flex: 0 0 36px; padding: 0 6px; }
+#selection-tools .selection-actions button:active { background: #dcdcc755; }
+#selection-tools .selection-actions [aria-expanded="true"] { color: #4b6f32; background: #dbe8cd; }
+#selection-tools .selection-palette { padding: 4px; border-bottom: 1px solid #d8d9ca; }
+#selection-tools .selection-styles { display: grid; grid-template-columns: repeat(4, 1fr); padding: 0; }
+#selection-tools .selection-styles button { min-height: 40px; min-width: 0; width: 100%; font-family: Georgia, serif; font-size: 22px; padding: 4px; border-radius: 2px; }
+#selection-tools .selection-colors { display: grid; grid-template-columns: repeat(9, 1fr); align-items: center; width: 100%; padding: 3px 0; gap: 0; }
+#selection-tools .highlight-color { width: 100%; min-width: 0; height: 44px; min-height: 44px; padding: 0; }
+#selection-tools .highlight-color::before { width: 22px; height: 22px; border-radius: 2px; border: 2px solid #fffef2; }
+#selection-tools .highlight-color[aria-pressed="true"]::before { box-shadow: 0 0 0 2px #557747; }
+.custom-highlight { display: flex; align-items: center; justify-content: center; height: 40px; position: relative; cursor: pointer; }
+.custom-highlight input { opacity: 0; position: absolute; inset: 0; width: 100%; height: 100%; }
+.selection-more-menu { top: 18%; }
+.annotation-dialog { width: min(460px, calc(100vw - 24px)); border-radius: 5px; }
+.annotation-editor blockquote { margin: 0 0 16px; border-left: 3px solid var(--app-accent); padding: 8px 12px; max-height: 100px; overflow: auto; font-size: 13px; line-height: 1.6; color: var(--app-secondary); }
+.annotation-editor textarea { min-height: 130px; resize: vertical; font: 16px/1.6 Roboto, Arial, sans-serif; }
+.annotation-appearance { display: flex; gap: 16px; margin-top: 12px; }
+.annotation-appearance label { flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.annotation-appearance input[type="color"] { width: 100%; height: 40px; background: transparent; padding: 3px; }
+.annotation-appearance select { height: 40px; padding: 4px 8px; }
+.reader-options .appearance-preview { min-height: 0; padding: 10px 14px; margin-bottom: 12px; border-radius: 2px; }
+.reader-options .appearance-preview > span { display: none; }
+.reader-options .appearance-preview > p { margin: 0; font-size: 20px; }
+.reader-options .theme-grid { grid-template-columns: repeat(6, 1fr); gap: 5px; }
+.reader-options .theme-swatch { height: 52px; min-height: 52px; border-radius: 3px; padding: 4px 0; }
+.reader-options .theme-swatch > span { font-size: 18px; }
+.reader-options .theme-swatch small { font-size: 9px; }
+.reader-options .modal-body > .range-field,
+.reader-options .modal-body > .select-field,
+.reader-options .modal-body > .toggle-field { border-radius: 0; background: transparent; padding: 12px 0; margin: 0; border-bottom: 1px solid var(--app-line); }
+.reader-options .setting-heading { margin: 14px 0 6px; font-size: 13px; }
+.marks-dialog { width: min(560px, calc(100vw - 20px)); }
+.marks-toolbar { display: flex; gap: 8px; margin: 0 0 8px; }
+.marks-toolbar input { flex: 1; min-width: 0; padding: 9px 10px; border: 1px solid var(--app-line); background: transparent; color: var(--app-text); }
+.marks-toolbar select { width: 110px; padding: 4px; background: transparent; color: var(--app-text); }
+.marks-tabs { display: flex; border-bottom: 1px solid var(--app-line); margin: 0 0 12px; }
+.marks-tabs button { flex: 1; padding: 10px 3px; font-size: 12px; color: var(--app-secondary); border-bottom: 2px solid transparent; }
+.marks-tabs [aria-selected="true"] { color: var(--app-accent); border-bottom-color: var(--app-accent); }
+.marks-dialog .mark-card { border: 0; border-left: 3px solid var(--mark-color); border-bottom: 1px solid var(--app-line); border-radius: 0; background: transparent; padding: 10px 12px; margin: 0 0 10px; }
+.marks-dialog .mark-card > p { white-space: pre-wrap; }
+.marks-dialog .mark-meta { font-size: 11px; }
+.marks-dialog .mark-quote { text-align: left; width: 100%; font-size: 14px; line-height: 1.6; }
+@media (max-width: 359px) { #selection-tools .selection-actions button { font-size: 12px; padding: 0 5px; } #reader-pages { display: none; } }
+.ftp-toolbar { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+.ftp-toolbar > span { flex: 1; overflow-wrap: anywhere; font-size: 13px; }
+.ftp-upload { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.ftp-file { display: flex; align-items: center; border-bottom: 1px solid var(--app-line); }
+.ftp-file > button:first-child { display: flex; flex: 1; min-width: 0; text-align: left; align-items: center; gap: 12px; padding: 12px 4px; }
+.ftp-file > button > span { overflow-wrap: anywhere; }
+.ftp-file small { display: block; font-size: 11px; color: var(--app-secondary); margin-top: 3px; }

@@ -1,0 +1,45 @@
+plugins { id 'com.android.application' }
+def booksSigning = new Properties()
+def booksSigningPath = System.getenv('BOOKS_SIGNING_PROPERTIES')
+if (booksSigningPath) {
+ file(booksSigningPath).withInputStream { booksSigning.load(it) }
+}
+android {
+ namespace 'app.books.reader'
+ compileSdk 36
+ defaultConfig { applicationId 'app.books.reader'; minSdk 28; targetSdk 36; versionCode 10901; versionName '1.9.1' }
+ buildFeatures { buildConfig true }
+ signingConfigs {
+  release {
+   if (booksSigningPath) {
+    storeFile file(booksSigning.getProperty('storeFile'))
+    storePassword booksSigning.getProperty('storePassword')
+    keyAlias booksSigning.getProperty('keyAlias')
+    keyPassword booksSigning.getProperty('keyPassword')
+   }
+  }
+ }
+ splits { abi { enable true; reset(); include "arm64-v8a", "armeabi-v7a", "x86_64"; universalApk false } }
+ packaging { jniLibs { useLegacyPackaging true; excludes += ["**/libsherpa-onnx-c-api.so", "**/libsherpa-onnx-cxx-api.so"] } }
+ buildTypes { release { minifyEnabled false; debuggable false; signingConfig signingConfigs.release } }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+gradle.taskGraph.whenReady { graph ->
+ if (graph.allTasks.any { it.name == 'bundleRelease' || it.name == 'assembleRelease' }) {
+  if (!booksSigningPath || ['storeFile', 'storePassword', 'keyAlias', 'keyPassword'].any { !booksSigning.getProperty(it) }) {
+   throw new GradleException('Set BOOKS_SIGNING_PROPERTIES to a private signing properties file outside the source tree.')
+  }
+ }
+}
+dependencies { implementation 'androidx.webkit:webkit:1.12.1'; implementation 'commons-net:commons-net:3.13.0' }
+
+dependencies {
+ implementation 'androidx.credentials:credentials:1.6.0'
+ implementation 'androidx.credentials:credentials-play-services-auth:1.6.0'
+ implementation 'com.google.android.libraries.identity.googleid:googleid:1.2.1'
+ implementation 'com.google.android.gms:play-services-auth:22.0.0'
+}
+
+dependencies { implementation files("libs/sherpa-onnx-1.12.40.aar"); implementation "org.jetbrains.kotlin:kotlin-stdlib:2.2.0" }
+
+dependencies { implementation "org.apache.commons:commons-compress:1.28.0" }

@@ -1,0 +1,148 @@
+/* Personal reading surfaces: covers and saved words carry the richness. */
+.home-book-details { position:absolute; right:12px; top:10px; z-index:2; min-height:48px; padding:8px 10px; font-size:13px; color:var(--app-secondary); }
+.home-margins { margin-top:28px; }
+.home-reading-pick { margin-top:28px; }
+.reading-pick { padding:20px 24px 24px; border:1px solid var(--app-line); border-radius:14px; text-align:center; }
+.pick-fan { position:relative; height:200px; max-width:340px; margin:0 auto; isolation:isolate; }
+.pick-fan img { position:absolute; top:12px; left:50%; margin-left:-55px; width:110px; height:164px; object-fit:cover; border-radius:2px 5px 5px 2px; box-shadow:5px 11px 18px #0004; }
+.pick-front { z-index:3; transform:translateY(-2px) rotate(-3deg); }
+.pick-side { z-index:1; opacity:.7; }
+.pick-left { transform:translateX(-66px) rotate(-18deg) scale(.88); transform-origin:center bottom; }
+.pick-right { transform:translateX(66px) rotate(18deg) scale(.88); transform-origin:center bottom; }
+.pick-fan img[hidden], .pick-actions button[hidden] { display:none; }
+.pick-copy { min-width:0; }
+.pick-result h3 { font:500 24px/1.35 BooksLiterata,Georgia,serif; letter-spacing:-.025em; margin:0 auto 10px; max-width:26ch; text-wrap:balance; overflow-wrap:anywhere; }
+.pick-author { font-size:14px; color:var(--app-secondary); margin:0 auto; max-width:32ch; line-height:1.6; overflow-wrap:anywhere; }
+.pick-pool { color:var(--app-secondary); font-size:12px; line-height:1.6; margin:16px 0; }
+.pick-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+.pick-actions button { display:flex; align-items:center; justify-content:center; gap:9px; min-height:50px; flex:1 1 160px; font-size:14px; }
+@media(min-width:600px) {
+  .reading-pick { display:grid; grid-template-columns:270px minmax(0,1fr); align-items:center; gap:24px; padding:30px; text-align:left; }
+  .pick-fan { width:270px; margin:0; }
+  .pick-result h3, .pick-author { margin-left:0; }
+  .pick-actions { justify-content:flex-start; }
+}
+@media(max-width:360px) {
+  .reading-pick { padding-inline:14px; }
+  .pick-fan { scale:.9; }
+}
+.margin-leaf { background:var(--app-surface); border-radius:14px; padding:22px 22px 12px; box-shadow:0 10px 24px #0002; }
+.saved-kind { display:inline-flex; align-items:center; gap:7px; font:500 12px/1.5 var(--ui-font); color:var(--app-secondary); }
+.saved-passage { border:0; padding:0; margin:18px 0 22px; font:400 22px/1.65 BooksLiterata,Georgia,serif; letter-spacing:-.012em; color:var(--app-text); overflow-wrap:anywhere; white-space:pre-wrap; }
+.saved-passage > span { -webkit-box-decoration-break:clone; box-decoration-break:clone; padding:1px 0; }
+.saved-passage[data-ink="Highlight"] > span { background:color-mix(in srgb,var(--saved-ink) 14%,transparent); }
+.saved-passage[data-ink="Underline"] > span { text-decoration:underline; text-decoration-color:color-mix(in srgb,var(--saved-ink) 72%,var(--app-text)); text-decoration-thickness:1px; text-underline-offset:5px; }
+.saved-passage[data-ink="StrikeOut"] > span { text-decoration:line-through; text-decoration-color:color-mix(in srgb,var(--saved-ink) 72%,var(--app-text)); text-decoration-thickness:1px; }
+.saved-passage[data-ink="Squiggly"] > span { text-decoration:underline wavy; text-decoration-color:color-mix(in srgb,var(--saved-ink) 72%,var(--app-text)); text-decoration-thickness:1px; text-underline-offset:5px; }
+.compact-passage { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5; overflow:hidden; }
+.passage-source { display:flex; align-items:center; width:100%; min-width:0; min-height:64px; gap:12px; text-align:left; color:var(--app-text); padding:5px 0; }
+.passage-source img { flex:none; width:36px; height:52px; object-fit:cover; border-radius:2px 4px 4px 2px; box-shadow:2px 4px 7px #0003; }
+.passage-source > span { flex:1; min-width:0; }
+.passage-source strong { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; font-size:13px; font-weight:600; line-height:1.5; overflow-wrap:anywhere; }
+.passage-source small { display:block; font-size:12px; color:var(--app-secondary); line-height:1.5; margin-top:3px; }
+.passage-source > svg { flex:none; color:var(--app-accent); }
+.margin-controls { display:flex; align-items:center; justify-content:space-between; gap:8px; border-top:1px solid var(--app-line); margin-top:14px; padding-top:6px; }
+.margin-position { font-size:12px; color:var(--app-secondary); font-variant-numeric:tabular-nums; }
+.margin-controls > div { display:flex; flex:none; gap:4px; }
+.margin-controls button { width:48px; height:48px; border-radius:50%; }
+.margin-controls button:disabled { opacity:.3; }
+
+.book-portrait-sheet.modal { width:min(620px,100%); border:0; }
+.book-portrait-sheet .modal-header { border:0; padding-bottom:4px; }
+.book-portrait-sheet .modal-header h2 { font-size:16px; font-weight:500; letter-spacing:0; color:var(--app-secondary); }
+.book-portrait-sheet .modal-body { padding-top:12px; }
+.book-portrait { display:grid; grid-template-columns:124px minmax(0,1fr); gap:26px; align-items:center; padding:12px 2px 30px; }
+.portrait-jacket { width:120px; aspect-ratio:2/3; position:relative; isolation:isolate; perspective:800px; }
+.portrait-jacket img { display:block; position:relative; z-index:1; width:100%; height:100%; object-fit:cover; border-radius:2px 5px 5px 2px; transform:rotateY(-10deg) rotate(-4deg); transform-origin:left center; box-shadow:9px 14px 20px #0004; }
+.portrait-jacket:after { content:""; position:absolute; top:3px; right:-5px; width:8px; bottom:-2px; border-radius:1px 4px 5px 1px; background:#c9c4b8; transform:rotate(-4deg); }
+.portrait-copy { min-width:0; }
+.portrait-copy h3 { font:500 25px/1.3 BooksLiterata,Georgia,serif; letter-spacing:-.025em; overflow-wrap:anywhere; margin:0 0 12px; text-wrap:balance; }
+.portrait-copy > p { margin:0; color:var(--app-secondary); font-size:14px; line-height:1.5; overflow-wrap:anywhere; }
+.portrait-copy .portrait-series { font-size:12px; margin-top:8px; }
+.portrait-meta { display:flex; align-items:center; justify-content:space-between; margin-top:10px; gap:10px; }
+.portrait-meta > span { font-size:11px; color:var(--app-secondary); letter-spacing:.03em; }
+.portrait-favorite { width:48px; height:48px; border-radius:50%; color:var(--app-secondary); }
+.portrait-favorite[aria-pressed="true"] { color:var(--app-accent); background:var(--app-tint); }
+.portrait-favorite[aria-pressed="true"] svg { fill:currentColor; }
+.book-journey { border-top:1px solid var(--app-line); border-bottom:1px solid var(--app-line); padding:20px 0 8px; }
+.book-journey > div:first-child { display:flex; justify-content:space-between; gap:12px; font-size:13px; }
+.book-journey strong { color:var(--app-accent); font-weight:500; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.book-journey progress { display:block; width:100%; height:3px; appearance:none; border:0; border-radius:4px; overflow:hidden; margin:14px 0 6px; background:var(--app-line); }
+.book-journey progress::-webkit-progress-bar { background:var(--app-line); }
+.book-journey progress::-webkit-progress-value { background:var(--app-accent); }
+.book-journey progress::-moz-progress-bar { background:var(--app-accent); }
+.journey-facts { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0 12px; font-size:12px; color:var(--app-secondary); }
+.journey-facts > span { display:flex; align-items:center; gap:7px; min-height:48px; }
+.journey-facts button { font-size:12px; gap:6px; min-height:48px; }
+.portrait-rating { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:12px 0; border-bottom:1px solid var(--app-line); gap:4px 10px; }
+.portrait-rating > span { font-size:13px; color:var(--app-secondary); }
+.portrait-rating .rating-picker { display:flex; gap:0; margin:0; }
+.portrait-rating .rating-picker button { width:48px; min-width:48px; height:48px; padding:12px; color:var(--app-secondary); }
+.portrait-rating .rating-picker button.rated { color:var(--app-accent); }
+.portrait-rating .rating-picker button.rated svg { fill:color-mix(in srgb,var(--app-accent) 24%,transparent); }
+.portrait-passages { padding-top:22px; }
+.portrait-passages h3 { font-size:15px; margin:0 0 12px; }
+.portrait-passage { display:block; width:100%; text-align:left; padding:0 0 18px; margin-bottom:18px; border-bottom:1px solid var(--app-line); }
+.portrait-passage:last-child { margin-bottom:0; }
+.portrait-passage .saved-passage { font-size:18px; margin:8px 0 14px; -webkit-line-clamp:3; }
+.portrait-passage > span { display:flex; gap:8px; align-items:center; color:var(--app-accent); font-size:12px; min-height:28px; }
+.portrait-empty { font-size:14px; line-height:1.7; margin:0 0 16px; color:var(--app-secondary); }
+.portrait-manage { margin-top:6px; }
+.portrait-manage > summary { display:flex; align-items:center; justify-content:space-between; min-height:56px; list-style:none; cursor:pointer; font-size:14px; }
+.portrait-manage > summary::-webkit-details-marker { display:none; }
+.portrait-manage[open] > summary svg { rotate:180deg; }
+.portrait-file { color:var(--app-secondary); font-size:12px; margin:4px 0 12px; }
+.portrait-manage .option-row { font-size:14px; min-height:52px; }
+.portrait-read { display:flex; align-items:center; justify-content:center; width:100%; gap:10px; min-height:52px; }
+.portrait-read svg:last-child { margin-left:auto; }
+.portrait-read svg:first-child { margin-right:auto; }
+.book-portrait-sheet .modal-footer { padding:14px 22px max(14px,env(safe-area-inset-bottom)); }
+
+.journal-page { max-width:980px; width:100%; margin-inline:auto; }
+.journal-heading { margin:6px 0 22px; }
+.journal-heading h1 { font:500 clamp(28px,6vw,38px)/1.23 BooksLiterata,Georgia,serif; letter-spacing:-.03em; margin:0 0 12px; text-wrap:balance; }
+.journal-heading p { margin:0; font-size:14px; line-height:1.7; color:var(--app-secondary); max-width:44ch; }
+.journal-heading > button { min-height:48px; margin-top:8px; font-size:13px; }
+.journal-tools { display:flex; flex-wrap:wrap; gap:12px; }
+.journal-search { display:flex; flex:1 1 260px; gap:10px; align-items:center; background:var(--app-surface); border-radius:10px; padding:0 14px; min-height:52px; color:var(--app-secondary); }
+.journal-search input { background:transparent; border:0; box-shadow:none; outline-offset:5px; padding:12px 0; width:100%; min-width:0; font-size:14px; color:var(--app-text); }
+.journal-search:focus-within { outline:2px solid var(--app-accent); outline-offset:2px; }
+.journal-search input:focus { outline:none; }
+.journal-book-filter { display:flex; align-items:center; gap:10px; flex:1 1 200px; min-width:0; font-size:13px; color:var(--app-secondary); }
+.journal-book-filter select { width:100%; min-width:0; min-height:52px; border:1px solid var(--app-line); border-radius:10px; background:var(--app-background); color:var(--app-text); font-size:13px; padding:10px; }
+.journal-filters { display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; margin-top:14px; border-bottom:1px solid var(--app-line); }
+.journal-filters button { flex:0 0 auto; min-height:48px; padding:10px 13px; color:var(--app-secondary); font-size:13px; border-bottom:2px solid transparent; }
+.journal-filters button[aria-pressed="true"] { color:var(--app-accent); border-bottom-color:var(--app-accent); }
+.journal-count { margin:20px 0 14px; font-size:12px; color:var(--app-secondary); }
+.journal-list { display:grid; grid-template-columns:minmax(0,1fr); gap:22px; }
+.journal-entry { min-width:0; padding:22px; background:var(--app-surface); border-radius:14px; }
+.journal-entry-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.journal-entry-meta time { font-size:11px; color:var(--app-secondary); }
+.journal-entry .saved-passage { font-size:20px; margin:20px 0 22px; }
+.journal-thought { display:flex; gap:8px; align-items:flex-start; font-size:14px; line-height:1.7; color:var(--app-secondary); padding:0 0 16px; margin:0; overflow-wrap:anywhere; white-space:pre-wrap; }
+.journal-thought svg { flex:none; margin-top:5px; }
+.journal-entry-footer { display:flex; flex-wrap:wrap; align-items:center; border-top:1px solid var(--app-line); padding-top:12px; gap:0 4px; }
+.journal-entry-footer .passage-source { flex:1 1 210px; }
+.journal-entry-footer > .icon-button { width:48px; height:48px; }
+.journal-more { display:block; margin:24px auto 8px; min-height:48px; }
+.journal-more[hidden] { display:none; }
+.journal-empty { padding:36px 12px; text-align:center; grid-column:1/-1; }
+.journal-empty > svg { color:var(--app-accent); margin:0 auto 18px; }
+.journal-empty h2 { font:500 24px/1.4 BooksLiterata,Georgia,serif; margin:0 0 10px; }
+.journal-empty p { color:var(--app-secondary); font-size:14px; line-height:1.7; max-width:42ch; margin:0 auto 20px; }
+.journal-empty button { min-height:48px; }
+@media(min-width:750px) {
+  .journal-list { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }
+  .home-margins .margin-leaf { padding:26px 30px 14px; }
+  .home-margins .saved-passage { font-size:26px; max-width:40ch; }
+  .book-portrait { grid-template-columns:150px minmax(0,1fr); gap:30px; }
+  .portrait-jacket { width:144px; }
+  .portrait-copy h3 { font-size:30px; }
+}
+@media(max-width:360px) {
+  .book-portrait { grid-template-columns:96px minmax(0,1fr); gap:20px; }
+  .portrait-jacket { width:92px; }
+  .portrait-copy h3 { font-size:21px; }
+  .journal-entry,.margin-leaf { padding:18px; }
+  .journal-filters button { padding-inline:10px; }
+}
