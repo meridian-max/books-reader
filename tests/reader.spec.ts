@@ -644,7 +644,7 @@ test("applies text processing immediately and preserves it on reopen", async ({
     )
     .toContain("Asha opened");
   await page.locator("[data-action=appearance]").click();
-  await page.locator(".advanced-settings:not(.page-colors) > summary").click();
+  await page.locator(".advanced-settings > summary").filter({ hasText: "Advanced typography" }).click();
   await page.locator("[data-setting=bionic]").selectOption("half");
   await page.locator("#apply-processing").click();
   await expect
