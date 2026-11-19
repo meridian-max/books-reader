@@ -42,7 +42,6 @@ import {
 } from "./native";
 import { exportNotes, sync } from "./backup";
 import { actionNames, eventNames, toolbarIcons, orientationNames, animationNames, tapEventAt } from "./controls";
-import { exportReadwise } from "./readwise";
 
 export class Reader {
   book: Book;
@@ -1051,9 +1050,6 @@ export class Reader {
         this.root.querySelector<HTMLButtonElement>('[data-action="jump-back"]')!.disabled = !this.navigationHistory.length;
         break;
       }
-      case "readwise":
-        await exportReadwise(this.book.id);
-        break;
       case "exit":
         await this.close();
         break;
@@ -1314,7 +1310,6 @@ export class Reader {
       ["speech", "Read aloud"],
       ["autoscroll", "Auto-scroll"],
       ["bookmark", "Add bookmark"],
-      ["readwise", "Export highlights to Readwise"],
       ["images", "Book image gallery"],
       ["save-book", "Save book file"],
     ];
@@ -2107,7 +2102,7 @@ export class Reader {
     }
   }
   notes() {
-    const m = modal("Bookmarks / Highlights", `<div class="marks-toolbar"><input id="marks-search" type="search" placeholder="Search highlights and notes" aria-label="Search highlights and notes"><select id="marks-sort" aria-label="Sort annotations"><option value="position">By position</option><option value="date">Newest first</option></select></div><div class="marks-tabs" role="tablist">${[["all", "All"], ["bookmark", "Bookmarks"], ["highlight", "Highlights"], ["note", "Notes"]].map(([id, label]) => `<button role="tab" data-mark-filter="${id}" aria-selected="${id === "all"}">${label}</button>`).join("")}</div><div class="marks-list"></div><div class="dialog-actions"><button class="secondary" id="export-marks">${icon("download", 16)} Export</button><button class="secondary" id="readwise-marks">Readwise</button></div>`);
+    const m = modal("Bookmarks / Highlights", `<div class="marks-toolbar"><input id="marks-search" type="search" placeholder="Search highlights and notes" aria-label="Search highlights and notes"><select id="marks-sort" aria-label="Sort annotations"><option value="position">By position</option><option value="date">Newest first</option></select></div><div class="marks-tabs" role="tablist">${[["all", "All"], ["bookmark", "Bookmarks"], ["highlight", "Highlights"], ["note", "Notes"]].map(([id, label]) => `<button role="tab" data-mark-filter="${id}" aria-selected="${id === "all"}">${label}</button>`).join("")}</div><div class="marks-list"></div><div class="dialog-actions"><button class="secondary" id="export-marks">${icon("download", 16)} Export</button></div>`);
     m.classList.add("marks-dialog");
     let filter = "all";
     const renderMarks = () => {
@@ -2136,7 +2131,6 @@ export class Reader {
       } catch (error) { toast((error as Error).message, true); }
     });
     m.querySelector("#export-marks")!.addEventListener("click", () => exportNotes(this.book.id).catch(error => toast(error.message, true)));
-    m.querySelector("#readwise-marks")!.addEventListener("click", () => exportReadwise(this.book.id).catch(error => toast(error.message, true)));
     renderMarks();
   }
   private async editMark(mark: Mark) {

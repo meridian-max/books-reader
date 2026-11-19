@@ -17,7 +17,6 @@ import { readingSummary } from './profile-data';
 import { renderProfile, renderHistory } from './profile';
 import { maybeAutoBackup } from './drive';
 initMotion();
-import { exportReadwise, readwiseSettings } from "./readwise";
 import { browseFtp } from "./ftp";
 import { db } from "./db";
 import {
@@ -1303,9 +1302,8 @@ async function renderSettings(page: HTMLElement) {
   <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("cloud", 22)}</span><span><strong>Cloud synchronization</strong><small>Keep your place across devices</small></span>${icon("down", 18)}</summary><div class="settings-section-body">${toggle("autoSync", "Automatically sync reading position", settings.autoSync)}<button class="option-row" data-shortcut="profile"><span>Google Drive · Profile & backups</span>${icon("chevron",18)}</button><p class="connection-state">${cloud ? E(cloud.provider === "webdav" ? "WebDAV" : "Dropbox") : "No cloud connection"}</p><div class="settings-actions"><button class="secondary" data-action="connect-cloud">${cloud ? "Manage connection" : "Connect cloud"}</button><button class="primary" data-action="sync">Sync now</button><button class="secondary" data-action="cloud-backup">Upload full backup</button><button class="secondary" data-action="cloud-restore">Restore cloud backup</button></div></div></details>
   <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("download", 22)}</span><span><strong>Backup and restore</strong><small>Keep a copy of your books & notes</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><div class="settings-actions"><button class="secondary" data-action="backup">Create backup</button><button class="secondary" data-action="restore">Restore backup</button><button class="secondary" data-action="export-notes">Export notebook</button></div></div></details>
   <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("folder", 22)}</span><span><strong>FTP / FTPS</strong><small>Browse books on your server</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><button class="secondary" data-action="ftp">Browse FTP server</button></div></details>
-  <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("highlight", 22)}</span><span><strong>Readwise</strong><small>Send highlights to your Readwise library</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><div class="settings-actions"><button class="secondary" data-action="readwise-connect">Connect Readwise</button><button class="secondary" data-action="readwise-export">Export highlights</button></div></div></details>
   <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("lock", 22)}</span><span><strong>Password protection</strong><small>Keep your library private</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><button class="secondary" data-action="${locked ? "remove-lock" : "set-lock"}">${locked ? "Remove startup password" : "Set startup password"}</button></div></details>
-  <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("info", 22)}</span><span><strong>About</strong><small>Version, credits & open-source notices</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><p>Books 1.9.2</p><button class="secondary" data-action="about">About</button><button class="secondary" data-action="licenses">Open-source notices</button><button class="secondary" data-action="privacy">Privacy policy</button></div></details></div>`;
+  <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("info", 22)}</span><span><strong>About</strong><small>Version, credits & open-source notices</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><p>Books 1.9.3</p><button class="secondary" data-action="about">About</button><button class="secondary" data-action="licenses">Open-source notices</button><button class="secondary" data-action="privacy">Privacy policy</button></div></details></div>`;
   page.querySelector("#settings-search")!.addEventListener("input", e => {
     const value = (e.target as HTMLInputElement).value.trim().toLowerCase();
     let shown = 0;
@@ -1670,12 +1668,6 @@ async function actions(action: string) {
     case "ftp":
       await browseFtp(async file => { await importFiles([file]); });
       break;
-    case "readwise-connect":
-      await readwiseSettings();
-      break;
-    case "readwise-export":
-      await exportReadwise();
-      break;
     case "set-lock": {
       if (!isNative())
         throw Error("Startup protection is available in the Android app.");
@@ -1731,7 +1723,7 @@ async function actions(action: string) {
     case "about":
       modal(
         "About Books",
-        `<div class="about-copy"><img src="/icon.svg" alt="Books"><h3>Books</h3><p>Version 1.9.2 · Android</p><p>Read ebooks, PDFs, comics, and documents offline. Organize your library, mark passages, listen to books, and sync your place across devices.</p><p>Supported formats: EPUB, PDF, DjVu, MOBI/AZW3, FB2, CHM, UMD, CBZ/CBR, DOCX, ODT, RTF, TXT, HTML, MHTML, Markdown, and images.</p><p><a href="/licenses/" id="license-link">Open-source notices</a></p></div>`,
+        `<div class="about-copy"><img src="/icon.svg" alt="Books"><h3>Books</h3><p>Version 1.9.3 · Android</p><p>Read ebooks, PDFs, comics, and documents offline. Organize your library, mark passages, listen to books, and sync your place across devices.</p><p>Supported formats: EPUB, PDF, DjVu, MOBI/AZW3, FB2, CHM, UMD, CBZ/CBR, DOCX, ODT, RTF, TXT, HTML, MHTML, Markdown, and images.</p><p><a href="/licenses/" id="license-link">Open-source notices</a></p></div>`,
         { wide: true },
       );
       document

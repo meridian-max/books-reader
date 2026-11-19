@@ -126,39 +126,34 @@ test("EPUB3 series metadata survives import and author, series and rating groups
   await expect(page.locator('[data-series="A Reading Series"]')).toBeVisible();
 });
 
-test("Readwise checks authentication and exports real text, notes and metadata using the documented API", async ({ page }) => {
-  let received: any;
-  await page.route("https://readwise.io/api/v2/**", async route => {
-    expect(route.request().headers().authorization).toBe("Token books-fixture-token");
-    if (route.request().url().endsWith("auth/")) await route.fulfill({ status: 204 });
-    else { received = route.request().postDataJSON(); await route.fulfill({ json: [] }); }
-  });
+test("free release keeps notebook export and cloud settings without Readwise", async ({ page }) => {
   await importText(page);
   const text = await selectPassage(page);
   await page.locator('[data-selection="note"]').click();
-  await page.locator("#input-dialog textarea").fill("A Readwise note\nwith two lines");
+  await page.locator("#input-dialog textarea").fill("A local note\nwith two lines");
   await page.locator("#input-dialog button[type=submit]").click();
   await expect(page.locator("#toast")).toContainText("Note saved");
   await notebook(page);
-  await page.locator("#readwise-marks").click();
-  await page.locator('#readwise-form input[name="token"]').fill("books-fixture-token");
-  await page.locator("#readwise-form button[type=submit]").click();
-  await expect(page.locator("#toast")).toContainText("Readwise connected");
-  await notebook(page);
-  await page.locator("#readwise-marks").click();
-  await page.locator("#readwise-export").click();
-  await expect(page.locator("#readwise-progress")).toContainText("Export complete");
-  expect(received.highlights).toHaveLength(1);
-  expect(received.highlights[0]).toMatchObject({ text, note: "A Readwise note\nwith two lines", category: "books", source_type: "books_android" });
-  expect(received.highlights[0].title).toBeTruthy();
-  expect(received.highlights[0].author).toBeTruthy();
-  expect(received.highlights[0]).not.toHaveProperty("source_url");
-  await page.locator("#readwise-manage").click();
-  await page.route("https://readwise.io/api/v2/auth/", route => route.fulfill({ status: 401 }));
-  await page.locator('#readwise-form input[name="token"]').fill("books-fixture-token");
-  await page.locator("#readwise-form button[type=submit]").click();
-  await expect(page.locator(".readwise-status")).toContainText("did not accept");
+  await expect(page.getByRole("button", {name:"Readwise", exact:true})).toHaveCount(0);
+  const download = page.waitForEvent("download");
+  await page.locator("#export-marks").click();
+  const file = await download;
+  expect(file.suggestedFilename()).toBe("Books-notebook.md");
+  const exported = await fs.readFile((await file.path())!, "utf8");
+  expect(exported).toContain(text.trim());
+  expect(exported).toContain("A local note\nwith two lines");
   expect(await marks(page)).toHaveLength(1);
+  await page.locator(".close-modal").click();
+  await page.locator(".reader-top-actions [data-action=more]").click();
+  await expect(page.locator('[data-reader-option="readwise"]')).toHaveCount(0);
+  await page.locator(".close-modal").click();
+  await page.locator('[data-action="exit"]').click();
+  await page.locator('[data-tab="profile"]').click();
+  await page.locator('[data-shortcut="settings"]').first().click();
+  await expect(page.locator("summary").filter({hasText:"Readwise"})).toHaveCount(0);
+  await page.locator("summary").filter({hasText:"Cloud synchronization"}).click();
+  await page.locator('[data-action="connect-cloud"]').click();
+  await expect(page.locator('select[name="provider"] option')).toHaveText(["WebDAV / Nextcloud", "Dropbox access token"]);
 });
 
 test("PDF highlight style and note edits keep one embedded annotation with original geometry", async ({ page }) => {

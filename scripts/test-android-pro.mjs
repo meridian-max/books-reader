@@ -17,13 +17,13 @@ const ready = new Promise((resolve, reject) => {
   server.once("exit", code => { clearTimeout(timer); reject(Error("FTP fixture exited: " + code)); });
 });
 const c = await connect(), results = [];
-let originalFtp, originalReadwise;
+let originalFtp;
 const fill = (selector, value) => c.evaluate(({selector,value}) => { const el = document.querySelector(selector); el.value = value; el.dispatchEvent(new Event("input",{bubbles:true})); }, {selector,value});
 try {
   await ready;
   await c.send("Page.reload");
   await c.poll(() => !!document.querySelector("[data-action=mobile-menu]"));
-  originalFtp = await c.native("getFtp"); originalReadwise = await c.native("getReadwise");
+  originalFtp = await c.native("getFtp");
   await c.native("clearFtp");
   await c.click("[data-action=ftp]");
   await fill("#ftp-connect [name=host]", "10.0.2.2");
@@ -56,12 +56,9 @@ try {
   await assert.rejects(c.native("ftp",{operation:"list",path:"/",config:{...config,port:2122,tls:true}}), /trust|certificate|CertPath|SSL|handshake/i);
   assert.deepEqual(await readFile(path.join(temporary,"ftp-reading.txt")),expected);
   results.push({name:"FTP invalid login, command injection and untrusted FTPS certificate rejected",status:"passed"});
-  await c.native("setReadwise",{token:"readwise-storage-fixture"});
-  assert.equal((await c.native("getReadwise")).token,"readwise-storage-fixture");
   const preferences = execFileSync(adb,["-s","emulator-5570","shell","run-as","app.books.reader","cat","shared_prefs/books.xml"],{encoding:"utf8"});
-  assert.ok(!preferences.includes("readwise-storage-fixture"));
   assert.ok(!preferences.includes("books-transfer-fixture"));
-  results.push({name:"FTP and Readwise secrets roundtrip with encrypted preferences",status:"passed"});
+  results.push({name:"FTP secrets roundtrip with encrypted preferences",status:"passed"});
   await c.evaluate(() => [...document.querySelectorAll("[data-ftp-open]")].find(x=>x.textContent.includes("ftp-reading.txt")).click());
   await c.poll(() => [...document.querySelectorAll(".book-title")].some(x=>x.textContent.includes("ftp-reading")));
   await c.screenshot("docs/screenshots/android-ftp-import-1.1.0.png");
@@ -74,6 +71,5 @@ try {
   console.log(JSON.stringify(results,null,2));
 } finally {
   if (originalFtp !== undefined) await c.native(originalFtp ? "setFtp" : "clearFtp",originalFtp || {});
-  if (originalReadwise !== undefined) await c.native(originalReadwise ? "setReadwise" : "clearReadwise",originalReadwise || {});
   c.close(); server.kill(); await rm(temporary,{recursive:true,force:true});
 }

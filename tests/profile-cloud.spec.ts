@@ -180,7 +180,7 @@ async function fakeGoogle(page: Page, signed = true, archive = "") {
               : response(200, { files: archive ? [entry] : [] });
           }
           if (
-            ["getCloud", "getFolder", "getFtp", "getReadwise"].includes(action)
+            ["getCloud", "getFolder", "getFtp"].includes(action)
           )
             return done(true, null);
           return done(true, false);

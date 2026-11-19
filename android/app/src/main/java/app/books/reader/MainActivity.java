@@ -77,9 +77,6 @@ public class MainActivity extends Activity implements SensorEventListener {
   case "setFtp":prefs().edit().putString("ftp",encrypt(a.toString())).apply();result(id,true,true);break;
   case "clearFtp":prefs().edit().remove("ftp").apply();result(id,true,true);break;
   case "ftp":pool.execute(()->{try{JSONObject ftpConfig=a.optJSONObject("config");if(ftpConfig==null){String stored=prefs().getString("ftp",null);if(stored==null)throw new IOException("Connect an FTP server first.");ftpConfig=new JSONObject(decrypt(stored));}result(id,true,FtpAccess.run(this,a,ftpConfig));}catch(Exception e){result(id,false,e.getMessage()==null?"FTP connection failed.":e.getMessage());}});break;
-  case "getReadwise":String readwise=prefs().getString("readwise",null);result(id,true,readwise==null?JSONObject.NULL:new JSONObject(decrypt(readwise)));break;
-  case "setReadwise":String readwiseToken=a.getString("token").trim();if(readwiseToken.isEmpty()||readwiseToken.length()>1024)throw new IOException("Enter a valid Readwise token.");prefs().edit().putString("readwise",encrypt(new JSONObject().put("token",readwiseToken).toString())).apply();result(id,true,true);break;
-  case "clearReadwise":prefs().edit().remove("readwise").apply();result(id,true,true);break;
   case "getCloud":String secret=prefs().getString("cloud",null);result(id,true,secret==null?JSONObject.NULL:new JSONObject(decrypt(secret)));break;
   case "clearCloud":prefs().edit().remove("cloud").apply();result(id,true,true);break;
   case "setCloud":prefs().edit().putString("cloud",encrypt(a.toString())).apply();result(id,true,true);break;
