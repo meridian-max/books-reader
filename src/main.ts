@@ -60,6 +60,7 @@ import {
   sync,
   getCloud,
   setCloud,
+  disconnectCloud,
 } from "./backup";
 import { isNative, native, network, saveFile, nativeFile } from "./native";
 
@@ -1304,7 +1305,7 @@ async function renderSettings(page: HTMLElement) {
   <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("folder", 22)}</span><span><strong>FTP / FTPS</strong><small>Browse books on your server</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><button class="secondary" data-action="ftp">Browse FTP server</button></div></details>
   <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("highlight", 22)}</span><span><strong>Readwise</strong><small>Send highlights to your Readwise library</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><div class="settings-actions"><button class="secondary" data-action="readwise-connect">Connect Readwise</button><button class="secondary" data-action="readwise-export">Export highlights</button></div></div></details>
   <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("lock", 22)}</span><span><strong>Password protection</strong><small>Keep your library private</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><button class="secondary" data-action="${locked ? "remove-lock" : "set-lock"}">${locked ? "Remove startup password" : "Set startup password"}</button></div></details>
-  <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("info", 22)}</span><span><strong>About</strong><small>Version, credits & open-source notices</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><p>Books 1.9.1</p><button class="secondary" data-action="about">About</button><button class="secondary" data-action="licenses">Open-source notices</button><button class="secondary" data-action="privacy">Privacy policy</button></div></details></div>`;
+  <details class="panel settings-panel" ><summary><span class="settings-section-icon">${icon("info", 22)}</span><span><strong>About</strong><small>Version, credits & open-source notices</small></span>${icon("down", 18)}</summary><div class="settings-section-body"><p>Books 1.9.2</p><button class="secondary" data-action="about">About</button><button class="secondary" data-action="licenses">Open-source notices</button><button class="secondary" data-action="privacy">Privacy policy</button></div></details></div>`;
   page.querySelector("#settings-search")!.addEventListener("input", e => {
     const value = (e.target as HTMLInputElement).value.trim().toLowerCase();
     let shown = 0;
@@ -1342,10 +1343,10 @@ async function renderSettings(page: HTMLElement) {
 function connectCloud(provider = "webdav") {
   const m = modal(
     "Cloud synchronization",
-    `<form id="cloud-form"><label class="field">Cloud provider<select name="provider"><option value="webdav">WebDAV / Nextcloud</option><option value="dropbox">Dropbox access token</option></select></label><div id="webdav-fields"><label class="field">WebDAV folder URL<input name="url" type="url" placeholder="https://cloud.example.com/remote.php/dav/files/user/Books/"></label><label class="field">Username<input name="username" autocomplete="username"></label><label class="field">App password<input name="password" type="password" autocomplete="off"></label></div><div id="dropbox-fields" hidden><label class="field">Dropbox access token<input name="token" type="password" autocomplete="off"></label><p class="small muted">Use a Dropbox API token with files.content.read and files.content.write. Expiring tokens need to be renewed. OAuth sign-in is not configured in this build.</p></div><p class="small muted">Use an existing WebDAV folder with write access. For Dropbox, create a /Books folder in the token’s app scope.</p><div class="dialog-actions"><button class="primary">Save connection ${icon("check", 16)}</button><button class="secondary" type="button" id="disconnect-cloud">Disconnect</button></div></form>`,
+    `<form id="cloud-form"><label class="field">Cloud provider<select name="provider"><option value="webdav">WebDAV / Nextcloud</option><option value="dropbox">Dropbox access token</option></select></label><div id="webdav-fields"><label class="field">WebDAV folder URL<input name="url" type="url" placeholder="https://cloud.example.com/remote.php/dav/files/user/Books/"></label><label class="field">Username<input name="username" autocomplete="username"></label><label class="field">App password<input name="password" type="password" autocomplete="off"></label></div><div id="dropbox-fields" hidden><label class="field">Dropbox access token<input name="token" type="password" autocomplete="off"></label><p class="small muted">Use a token with permission to read and write your Books folder.</p><details><summary>Keep Dropbox connected</summary><p class="small muted">If you have an offline authorization from Dropbox, add its app key and refresh token. Books will renew access automatically. Otherwise, replace your access token when it expires.</p><label class="field">Dropbox app key<input name="appKey" autocomplete="off" autocapitalize="none" spellcheck="false"></label><label class="field">Dropbox refresh token<input name="refreshToken" type="password" autocomplete="off"></label></details></div><p class="small muted">Use an existing WebDAV folder with write access. For Dropbox, create a /Books folder in the token’s app scope.</p><div class="dialog-actions"><button class="primary">Save connection ${icon("check", 16)}</button><button class="secondary" type="button" id="disconnect-cloud">Disconnect</button></div></form>`,
   );
   m.querySelector("#disconnect-cloud")!.addEventListener("click", async () => {
-    await native("clearCloud");
+    await disconnectCloud();
     closeModal();
     await render();
     toast("Cloud disconnected.");
@@ -1366,12 +1367,18 @@ function connectCloud(provider = "webdav") {
       username: String(fd.get("username")),
       password: String(fd.get("password")),
       token: String(fd.get("token")).trim(),
+      appKey: String(fd.get("appKey") ?? "").trim(),
+      refreshToken: String(fd.get("refreshToken") ?? "").trim(),
     };
     try {
       if (c.provider === "webdav" && !c.url.startsWith("https://"))
         throw Error("Use an HTTPS WebDAV address to protect your credentials.");
-      if (c.provider === "dropbox" && !c.token)
-        throw Error("Enter a Dropbox access token.");
+      if (c.provider === "dropbox") {
+        if (!!c.appKey !== !!c.refreshToken)
+          throw Error("Enter both the Dropbox app key and refresh token, or leave both blank.");
+        if (!c.token && !c.refreshToken)
+          throw Error("Enter a Dropbox access token or an app key and refresh token.");
+      }
       await setCloud(c);
       closeModal();
       await render();
@@ -1724,7 +1731,7 @@ async function actions(action: string) {
     case "about":
       modal(
         "About Books",
-        `<div class="about-copy"><img src="/icon.svg" alt="Books"><h3>Books</h3><p>Version 1.9.1 · Android</p><p>Read ebooks, PDFs, comics, and documents offline. Organize your library, mark passages, listen to books, and sync your place across devices.</p><p>Supported formats: EPUB, PDF, DjVu, MOBI/AZW3, FB2, CHM, UMD, CBZ/CBR, DOCX, ODT, RTF, TXT, HTML, MHTML, Markdown, and images.</p><p><a href="/licenses/" id="license-link">Open-source notices</a></p></div>`,
+        `<div class="about-copy"><img src="/icon.svg" alt="Books"><h3>Books</h3><p>Version 1.9.2 · Android</p><p>Read ebooks, PDFs, comics, and documents offline. Organize your library, mark passages, listen to books, and sync your place across devices.</p><p>Supported formats: EPUB, PDF, DjVu, MOBI/AZW3, FB2, CHM, UMD, CBZ/CBR, DOCX, ODT, RTF, TXT, HTML, MHTML, Markdown, and images.</p><p><a href="/licenses/" id="license-link">Open-source notices</a></p></div>`,
         { wide: true },
       );
       document

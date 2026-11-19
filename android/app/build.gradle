@@ -7,7 +7,7 @@ if (booksSigningPath) {
 android {
  namespace 'app.books.reader'
  compileSdk 36
- defaultConfig { applicationId 'app.books.reader'; minSdk 28; targetSdk 36; versionCode 10901; versionName '1.9.1' }
+ defaultConfig { applicationId 'app.books.reader'; minSdk 28; targetSdk 36; versionCode 10902; versionName '1.9.2' }
  buildFeatures { buildConfig true }
  signingConfigs {
   release {

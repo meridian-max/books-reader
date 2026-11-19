@@ -1,6 +1,6 @@
 # Books for Android
 
-Books is an offline ebook reader for Android 9 or later. Package: `app.books.reader`. Version: 1.9.1 (10901).
+Books is an offline ebook reader for Android 9 or later. Package: `app.books.reader`. Version: 1.9.2 (10902).
 
 Read DRM-free EPUB, PDF, comics and documents; keep highlights and bookmarks; customise fonts, themes and controls; listen with Android text-to-speech or an optional offline neural voice pack. The optional model pack is downloaded only on request. Reading requires no account. Google sign-in and Drive are not configured in this release.
 
@@ -28,7 +28,7 @@ keyPassword=YOUR_PASSWORD
 BOOKS_SIGNING_PROPERTIES=/absolute/path/to/signing.properties bash scripts/build-play.sh
 ```
 
-This produces `releases/Books-1.9.1-play.aab`. Release builds are not debuggable and use Android's document/folder picker, without all-files permission. Never commit or share signing keys or credentials. Google Play creates and manages its distribution signing key separately.
+This produces `releases/Books-1.9.2-play.aab`. Release builds are not debuggable and use Android's document/folder picker, without all-files permission. Never commit or share signing keys or credentials. Google Play creates and manages its distribution signing key separately.
 
 ## Source and licenses
 

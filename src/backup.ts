@@ -3,6 +3,7 @@ import { avatars } from "./profile-data";
 import { db } from "./db";
 import { defaults, type Book, type Mark, type Session } from "./types";
 import { saveFile, network, native, isNative } from "./native";
+import { clearDropboxSession, dropboxAccessToken, type DropboxCredentials } from "./dropbox";
 function archive(
   operation: "zip" | "unzip",
   payload: Record<string, unknown>,
@@ -168,12 +169,11 @@ export async function exportNotes(bookId?: string) {
     new Blob([content], { type: "text/markdown" }),
   );
 }
-export interface CloudConfig {
+export interface CloudConfig extends DropboxCredentials {
   provider: "webdav" | "dropbox";
   url: string;
   username: string;
   password: string;
-  token: string;
 }
 export async function getCloud(): Promise<CloudConfig | null> {
   return isNative() ? native("getCloud") : null;
@@ -182,6 +182,11 @@ export async function setCloud(config: CloudConfig) {
   if (!isNative())
     throw Error("Cloud credentials are stored securely in the Android app.");
   await native("setCloud", config);
+  clearDropboxSession();
+}
+export async function disconnectCloud() {
+  await native("clearCloud");
+  clearDropboxSession();
 }
 async function cloudRequest(
   config: CloudConfig,
@@ -208,13 +213,13 @@ async function cloudRequest(
     });
   }
   const download = method === "GET";
-  return network(
+  const request = (token: string) => network(
     "https://content.dropboxapi.com/2/files/" +
       (download ? "download" : "upload"),
     {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + config.token,
+        Authorization: "Bearer " + token,
         "Dropbox-API-Arg": JSON.stringify(
           download
             ? { path: "/Books/" + path }
@@ -230,6 +235,11 @@ async function cloudRequest(
       body: download ? undefined : body,
     },
   );
+  const response = await request(await dropboxAccessToken(config));
+  // Retry authorization once only. Do not retry uploads after a transport failure.
+  if (response.status === 401 && config.refreshToken)
+    return request(await dropboxAccessToken(config, true));
+  return response;
 }
 let activeSync: Promise<boolean> | undefined;
 export function sync(): Promise<boolean> {
